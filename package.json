@@ -1,6 +1,6 @@
 {
     "name": "atlassian_audit",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "license": "https://cdn.splunkbase.splunk.com/static/misc/eula.html",
     "splunkbaseid": 7371
 }
