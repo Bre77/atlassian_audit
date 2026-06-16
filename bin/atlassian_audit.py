@@ -3,9 +3,14 @@ import sys
 import json
 import time
 from datetime import datetime, timedelta
-import requests
 
+# Prepend the bundled lib dir BEFORE importing third-party packages so the
+# add-on uses its own requests/certifi/urllib3 instead of the Splunk platform's.
+# (Splunk 10 ships OpenSSL 3.0 + Python 3.9; relying on platform libs breaks TLS.)
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "lib"))
+
+import requests
+import certifi
 from splunklib.modularinput import *
 
 
@@ -96,6 +101,7 @@ class Input(Script):
 
         # Get Data
         with requests.Session() as session:
+            session.verify = certifi.where()
             session.headers.update({'Accept': 'application/json', 'Authorization': "Bearer "+input_items["key"]})
             while url:
                 with session.get(url) as r:
