@@ -6,7 +6,7 @@ chmod -R u-x+X *
 chmod -R u=rwx,go= bin/*
 # splunk-sdk (provides splunklib) is sdist-only and pure Python, so install it
 # without wheel/platform constraints.
-python3.9 -m pip install --upgrade -t lib --no-dependencies splunk-sdk
+python3.9 -m pip install --upgrade -t lib --no-dependencies "splunk-sdk>=2.1.1,<3"
 # Vendor the HTTP/TLS stack (requests + certifi + urllib3 + idna + charset-normalizer)
 # as Linux cp39 wheels so the add-on is self-contained on Splunk 10 indexers/HFs
 # (OpenSSL 3.0 / Python 3.9) regardless of the build host's OS.
