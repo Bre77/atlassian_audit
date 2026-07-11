@@ -12,9 +12,18 @@ python3.9 -m pip install --upgrade -t lib --no-dependencies "splunk-sdk>=2.1.1,<
 # (OpenSSL 3.0 / Python 3.9) regardless of the build host's OS.
 python3.9 -m pip install --upgrade -t lib -r lib/requirements.txt \
     --platform manylinux2014_x86_64 --python-version 3.9 --only-binary=:all:
+# charset-normalizer's mypyc speedup is x86_64-only and fails AppInspect's
+# AArch64 check; deleting it falls back to charset-normalizer's pure-Python
+# implementation, same as splunk_nats does for its native .so chains.
+find lib/charset_normalizer -name '*.so' -delete
+find lib -maxdepth 1 -name '*mypyc*.so' -delete
 # Strip bytecode caches (any depth) and pip console-script shims so the package
 # is clean for AppInspect / Splunkbase.
 find lib bin -type d -name __pycache__ -prune -exec rm -rf {} +
 rm -rf lib/bin
+# pip-installed wheels can ship files with execute bits set; strip them the
+# same way as the rest of the package now that lib/ is fully populated.
+chmod -R u=rwX,go= lib
+chmod -R u-x+X lib
 cd ..
 tar -cpzf $OUTPUT --exclude=.* --overwrite atlassian_audit 
