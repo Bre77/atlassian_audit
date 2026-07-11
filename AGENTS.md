@@ -5,7 +5,7 @@ This file is the project's committed home for project-intrinsic agent knowledge:
 - Add durable project-specific notes here as they are discovered through real work.
 - `lib/` is gitignored except `lib/requirements.txt`; `.build.sh` vendors everything else at build time.
 - `splunklib`'s version is pinned in `.build.sh` (the `pip install ... splunk-sdk` line), not in `lib/requirements.txt`: splunk-sdk is sdist-only (no wheels), so it's installed in a separate pip call without the `--only-binary=:all:`/`--platform` constraints used for the requests/certifi/urllib3 stack.
-- CI (`.github/workflows/validate.yml`) calls the reusable build+AppInspect workflow from `Bre77/splunk_nats@main`, credential-free (no publish step). This is a plain modular-input TA (no SplunkUI/React bundle), so `use_ucc_gen: false`; ucc-gen apps set it `true`.
+- CI (`.github/workflows/validate.yml`) calls the reusable build+AppInspect workflow from `Bre77/splunk_nats@main`, credential-free (no publish step). This is a plain modular-input TA (no SplunkUI/React bundle), so `use_ucc_gen: false` and `build_command: "./.build.sh"` - AppInspect scans the `.spl` that `.build.sh` produces, not a raw tar of the repo, since the repo root mixes app content with repo tooling. `package_glob: "../*.spl"` matches where `.build.sh` writes its output (one directory above `app_dir`, per its `cd ..` before `tar`).
 
 ## Maintaining this file
 

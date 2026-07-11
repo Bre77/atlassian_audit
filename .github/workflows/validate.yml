@@ -18,5 +18,7 @@ jobs:
     with:
       app_dir: "."
       use_ucc_gen: false
+      build_command: "./.build.sh"
+      package_glob: "../*.spl"
       splunk_python_version: "3.9"
       fail_on: "errors"
