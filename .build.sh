@@ -4,9 +4,11 @@ OUTPUT="${1:-atlassian_audit.spl}"
 chmod -R u=rwX,go= *
 chmod -R u-x+X *
 chmod -R u=rwx,go= bin/*
-# splunk-sdk (provides splunklib) is sdist-only and pure Python, so install it
-# without wheel/platform constraints.
-python3.9 -m pip install --upgrade -t lib --no-dependencies "splunk-sdk>=2.1.1,<3"
+# splunk_input_runtime 1.0.0, pinned to commit fcc942fa00b91b6ca56e35040b26b57cf2189f83.
+# Archive sha256:0977db3c1199c5a8c02f1e3a5e52142a5f87d6969b2902d6d36242eee460ba8d
+# It ships only as this GitHub archive (no wheels, no PyPI release yet), so install it
+# without wheel/platform constraints, same as splunk-sdk was installed before it.
+python3.9 -m pip install --upgrade -t lib --no-dependencies "splunk_input_runtime @ https://github.com/Bre77/splunk-input-runtime/archive/fcc942fa00b91b6ca56e35040b26b57cf2189f83.zip"
 # Vendor the HTTP/TLS stack (requests + certifi + urllib3 + idna + charset-normalizer)
 # as Linux cp39 wheels so the add-on is self-contained on Splunk 10 indexers/HFs
 # (OpenSSL 3.0 / Python 3.9) regardless of the build host's OS.
