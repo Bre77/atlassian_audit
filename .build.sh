@@ -28,4 +28,4 @@ rm -rf lib/bin
 chmod -R u=rwX,go= lib
 chmod -R u-x+X lib
 cd ..
-tar -cpzf $OUTPUT --exclude=.* --overwrite atlassian_audit 
+tar -cpzf $OUTPUT --exclude=.* --exclude=atlassian_audit/AGENTS.md --exclude=atlassian_audit/CLAUDE.md --overwrite atlassian_audit
