@@ -1,5 +1,5 @@
 requests
-certifi
+certifi>=2026.10.19
 charset-normalizer
 idna
 urllib3
